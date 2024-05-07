@@ -8,4 +8,4 @@ const https = require('https');
 const server = https.createServer({key, cert}, app);
 const port = 3005;
 
-server.listen(port, () => console.log(`Server is running on port ${port} with SSL certificate.`));
+app.listen(port, () => console.log(`Server is running on port ${port} with SSL certificate.`));
