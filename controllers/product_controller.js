@@ -1,5 +1,6 @@
 const Product = require("../models/Product");
 const Purchase = require("../models/Purchase");
+const { User } = require("../models/User");
 
 // get all products by all admin + registered users + guests
 const getAllProducts = (req, res, next) => {
@@ -154,6 +155,8 @@ const purchaseProduct = (req, res, next) => {
 
 
         const purchaseProductItem = req.body.items;
+        const userPayAmount = req.body.payAmount;
+
         let totalBillAmount = 0;
 
         purchaseProductItem.forEach(item => {
@@ -165,15 +168,26 @@ const purchaseProduct = (req, res, next) => {
             'userName': req.user.fullName,
             'userPicture': req.user.picture,
             'items': req.body.items,
-            'totalPrice': totalBillAmount,
-            'payment': req.body.payment,
+            // 'totalPrice': totalBillAmount,
+
+            // Vulnerability 3 - users can buy products at less price or even on free
+            'totalPrice': userPayAmount,
+            'payment': 'success',
             'purchaseDate': new Date().toISOString().slice(0, 10),
 
         };
 
-        const savedData = Purchase.create(purchase);
-        if (!savedData) return res.status(400).json({ error: 'Something went wrong. Please try again later.' });
-        res.status(201).json(purchase);
+        User.findByIdAndUpdate(req.user.id, { $set: { amount: req.user.amount - userPayAmount } }, { new: true })
+            .then(updatedProduct => {
+                // res.status(200).json(updatedProduct);
+
+                const savedData = Purchase.create(purchase);
+                if (!savedData) return res.status(400).json({ error: 'Something went wrong. Please try again later.' });
+                res.status(201).json(purchase);
+            })
+            .catch((err => res.status(400).json({ error: err.message })));
+
+
 
     }
     catch (err) {

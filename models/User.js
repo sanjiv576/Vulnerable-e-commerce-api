@@ -7,6 +7,10 @@ const userSchema = new mongoose.Schema({
         required: true,
         minLength: [2, 'Length of full name cannot be smaller than 2']
     },
+    amount: {
+        type: Number,
+        default: 50000
+    },
 
     role: {
         type: String,

@@ -22,7 +22,7 @@ const userRegister = async (req, res, next) => {
                 fullName: req.body.fullName,
                 email: req.body.email,
                 role: 'user',
-                // Vulnerable 1 (using weak hashing algorithm)
+                // Vulnerability 1 (using weak hashing algorithm)
                 password: md5(req.body.password)
             };
 
@@ -63,6 +63,7 @@ const userLogin = ('/login', async (req, res, next) => {
                     role: user.role,
                     fullName: user.fullName,
                     picture: user.picture,
+                    amount: user.amount,
                 };
                 jwt.sign(
                     payload,
@@ -76,7 +77,7 @@ const userLogin = ('/login', async (req, res, next) => {
                         console.log(`TOken: ${token}`);
                         // save the online status
                         user.save()
-                            .then(success => res.json({ token: token, user: payload, email: email, password: user.password })) // Vulnerable 2 (exposing user hashed password)
+                            .then(success => res.json({ token: token, user: payload, email: email, password: user.password })) // Vulnerability 2 (exposing user hashed password)
                             .catch((err => {
                                 res.status(500).json({ error: err.message });
                             }))
@@ -135,6 +136,7 @@ const getProfile = (req, res, next) => {
                 "fullName": foundUser.fullName,
                 "email": foundUser.email,
                 "picture": foundUser.picture,
+                "amount": foundUser.amount,
             }
             res.status(200).json(registeredUser);
         })
