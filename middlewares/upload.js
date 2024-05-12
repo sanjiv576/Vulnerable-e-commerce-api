@@ -37,28 +37,16 @@ const storageForProfile = multer.diskStorage({
     }
 });
 
-const fileFilter = (req, file, cb) => {
-    // get file extension
-    const fileExtension = path.extname(file.originalname.toLowerCase());
-
-    // supports only png, jpeg and png
-    if (!fileExtension.match(/png|jpeg|jpg/)) {
-        return cb(new Error('only jpg, jpeg and png files are supported.'), false);
-    }
-    cb(null, true);
-}; 
-
-
 const uploadForProduct = multer({
+    // Vulnerability no filteration so any extension images/files can be uploaded
     storage: storageForProduct,
-    fileFilter: fileFilter,
     limits: { fieldSize: 3 * 1024 * 1024 }  // Note: supports only less than 3 MB
 });
 
 
 const uploadForProfile = multer({
+    // Vulnerability no filteration so any extension images/files can be uploaded
     storage: storageForProfile,
-    fileFilter: fileFilter,
     limits: { fieldSize: 3 * 1024 * 1024 }  // Note: supports only less than 3 MB
 });
 

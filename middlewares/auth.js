@@ -14,7 +14,7 @@ const verifyUser = (req, res, next) => {
 
     // verify user = admin + user
 
-    jwt.verify(token, process.env.SECRET, (err, payload) => {
+    jwt.verify(token, 'sdfsafasfDFDF$%DFDFDFe545454sdf', (err, payload) => {
         // store payload
         req.user = payload;
         console.log(`${req.user.fullName} is valid user.And, role is ${payload.role}`);

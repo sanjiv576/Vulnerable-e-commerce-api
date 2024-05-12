@@ -1,5 +1,4 @@
 const { User, isPasswordChangeRequired, validatePassword } = require("../models/User");
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const md5 = require('md5');
@@ -67,7 +66,7 @@ const userLogin = ('/login', async (req, res, next) => {
                 };
                 jwt.sign(
                     payload,
-                    process.env.SECRET,
+                    'sdfsafasfDFDF$%DFDFDFe545454sdf',
                     { expiresIn: '4h' },  // expires token in 4 hours
                     (err, token) => {
                         if (err) return res.status(500).json({ error: err.message });

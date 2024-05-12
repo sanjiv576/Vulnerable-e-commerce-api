@@ -26,7 +26,7 @@ app.use(morgan('tiny'));
 
 const dbName = 'e_commerce_db';
 
-const globalDbUri = process.env.GLOBAL_MONGODB_URI;  // uri for storing data in Mongodb cluster
+const globalDbUri = 'mongodb+srv://shresthasanjiv576:1xVsLWe53ljO7eW0@cluster0.yoic0aa.mongodb.net/?retryWrites=true&w=majority';  // uri for storing data in Mongodb cluster
 const localDbUri = `mongodb://127.0.0.1:27017/${dbName}`;  // uri for storing data locally
 
 
